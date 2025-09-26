@@ -8,15 +8,13 @@ const TrendingPosts = () => {
     const [error, setError] = useState('');
     const [lastUpdated, setLastUpdated] = useState(null);
 
-    // useCallback ensures fetchTrends reference stays stable
     const fetchTrends = useCallback(async () => {
         setIsLoading(true);
         setError('');
 
         try {
-            // Use env variable for backend URL or fallback to local
             const apiBase = process.env.REACT_APP_BACKEND_URL || "http://127.0.0.1:8080";
-            const response = await axios.get(`${apiBase}/api/trending`);
+            const response = await axios.get(`${apiBase}/api/trending?limit=10`);
             setTrends(response.data);
             setLastUpdated(new Date());
         } catch (err) {
@@ -25,11 +23,11 @@ const TrendingPosts = () => {
         } finally {
             setIsLoading(false);
         }
-    }, []); // no dependencies; stable reference
+    }, []);
 
     useEffect(() => {
-        fetchTrends(); // fetch once on mount
-    }, [fetchTrends]); // safe, no ESLint errors
+        fetchTrends();
+    }, [fetchTrends]);
 
     return (
         <div className="card" style={{ padding: '20px', maxWidth: '600px', margin: '20px auto' }}>
@@ -58,7 +56,9 @@ const TrendingPosts = () => {
                                 listStyle: 'none',
                             }}
                         >
-                            {trend.text || trend} {/* fallback if no 'text' */}
+                            <p><strong>Text:</strong> {trend.text}</p>
+                            <p><strong>Sentiment:</strong> {trend.sentiment}</p>
+                            <p><strong>Score:</strong> {trend.score?.toFixed(3)}</p>
                         </li>
                     ))}
                 </ul>

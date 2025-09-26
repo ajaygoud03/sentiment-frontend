@@ -2,31 +2,35 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import './AnalyzePost.css';
 
-const AnalyzePost = ({ setIsLoading, setError, setAnalysisResult, setPostText }) => {
+const AnalyzePost = () => {
     const [url, setUrl] = useState('');
+    const [postText, setPostText] = useState('');
+    const [analysisResult, setAnalysisResult] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
 
     const handleAnalyze = async () => {
         if (!url.trim()) {
             setError('Please enter a post URL.');
             return;
         }
+
         setIsLoading(true);
         setError('');
         setAnalysisResult(null);
         setPostText('');
 
         try {
-            const apiPath = process.env.NODE_ENV === 'production' 
-    ? process.env.REACT_APP_BACKEND_URL + '/api/fetch_and_analyze' 
-    : 'http://localhost:8080/api/fetch_and_analyze';
+            const apiPath =
+                process.env.NODE_ENV === 'production'
+                    ? process.env.REACT_APP_BACKEND_URL + '/api/fetch_and_analyze'
+                    : 'http://localhost:8080/api/fetch_and_analyze';
 
-
-            const response = await axios.post(apiPath, { url: url });
-            
+            const response = await axios.post(apiPath, { url });
             setPostText(response.data.postText);
             setAnalysisResult({
                 sentiment: response.data.sentiment,
-                score: response.data.score
+                score: response.data.score,
             });
 
         } catch (err) {
@@ -47,8 +51,24 @@ const AnalyzePost = ({ setIsLoading, setError, setAnalysisResult, setPostText })
                     onChange={(e) => setUrl(e.target.value)}
                     placeholder="Paste X post link here..."
                 />
-                <button onClick={handleAnalyze}>Analyze</button>
+                <button onClick={handleAnalyze} disabled={isLoading}>
+                    {isLoading ? 'Analyzing...' : 'Analyze'}
+                </button>
             </div>
+
+            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
+
+            {postText && (
+                <div style={{ marginTop: '15px' }}>
+                    <p><strong>Post:</strong> {postText}</p>
+                    {analysisResult && (
+                        <>
+                            <p><strong>Sentiment:</strong> {analysisResult.sentiment}</p>
+                            <p><strong>Score:</strong> {analysisResult.score.toFixed(3)}</p>
+                        </>
+                    )}
+                </div>
+            )}
         </div>
     );
 };
