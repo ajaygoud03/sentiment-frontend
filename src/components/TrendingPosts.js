@@ -30,7 +30,7 @@ const TrendingPosts = () => {
     }, [fetchTrends]);
 
     return (
-        <div className="card" style={{ padding: '20px', maxWidth: '600px', margin: '20px auto' }}>
+        <div className="card" style={{ padding: '20px', maxWidth: '700px', margin: '20px auto' }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <h2>Live Posts from X</h2>
                 {lastUpdated && (
@@ -56,9 +56,11 @@ const TrendingPosts = () => {
                                 listStyle: 'none',
                             }}
                         >
-                            <p><strong>Text:</strong> {trend.text}</p>
-                            <p><strong>Sentiment:</strong> {trend.sentiment}</p>
-                            <p><strong>Score:</strong> {trend.score?.toFixed(3)}</p>
+                            <p>{trend.text}</p>
+                            <p>
+                                <strong>Sentiment:</strong> {trend.sentiment || "Unknown"} |{" "}
+                                <strong>Score:</strong> {trend.score !== undefined ? trend.score.toFixed(3) : "N/A"}
+                            </p>
                         </li>
                     ))}
                 </ul>
