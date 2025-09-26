@@ -46,24 +46,24 @@ const TrendingPosts = () => {
                 <p style={{ color: '#bf2600' }}>{error}</p>
             ) : (
                 <ul style={{ padding: 0 }}>
-                    {trends.map((trend, index) => (
-                        <li
-                            key={index}
-                            style={{
-                                marginBottom: '15px',
-                                paddingBottom: '15px',
-                                borderBottom: '1px solid #eee',
-                                listStyle: 'none',
-                            }}
-                        >
-                            <p>{trend.text}</p>
-                            <p>
-                                <strong>Sentiment:</strong> {trend.sentiment || "Unknown"} |{" "}
-                                <strong>Score:</strong> {trend.score !== undefined ? trend.score.toFixed(3) : "N/A"}
-                            </p>
-                        </li>
-                    ))}
-                </ul>
+  {trends.map((trend, index) => (
+    <li
+      key={index}
+      style={{
+        marginBottom: '15px',
+        paddingBottom: '15px',
+        borderBottom: '1px solid #eee',
+        listStyle: 'none',
+      }}
+    >
+      <p>{trend.text}</p>
+      <p>
+        Sentiment: {trend.sentiment || "Unknown"} | Score: {trend.score !== undefined ? trend.score.toFixed(3) : "N/A"}
+      </p>
+    </li>
+  ))}
+</ul>
+
             )}
 
             <button
