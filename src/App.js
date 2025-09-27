@@ -4,6 +4,7 @@ import TrendingPosts from './components/TrendingPosts';
 import AnalyzePost from './components/AnalyzePost';
 import SentimentReport from './components/SentimentReport';
 import SentimentChart from './components/SentimentChart';
+import Chatbot from './components/Chatbot'; // ✅ import chatbot
 
 function App() {
   const [analysisResult, setAnalysisResult] = useState(null);
@@ -13,10 +14,15 @@ function App() {
 
   return (
     <div className="App">
+      {/* Header */}
       <header className="header">
         <h1>Sentiment Analysis Dashboard</h1>
-        <p>Analyze the sentiment of X posts in real-time with an mBERT-powered model.</p>
+        <p>
+          Analyze the sentiment of X posts in real-time with an mBERT-powered model.
+        </p>
       </header>
+
+      {/* Main Dashboard */}
       <main className="dashboard">
         <TrendingPosts />
         <AnalyzePost
@@ -33,6 +39,9 @@ function App() {
         />
         <SentimentChart result={analysisResult} />
       </main>
+
+      {/*  Floating Chatbot */}
+      <Chatbot />
     </div>
   );
 }
