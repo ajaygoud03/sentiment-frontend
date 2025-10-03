@@ -41,7 +41,7 @@ const SentimentReport = ({ isLoading, error, result, postText }) => {
                 <span className="sentiment-value">{result.sentiment}</span>
             </div>
             <div className="confidence-score">
-                <strong>Confidence:</strong> { (result.score * 100).toFixed(2) }%
+                <strong>Confidence:</strong> {(result.score * 100).toFixed(2)}%
             </div>
         </div>
     );

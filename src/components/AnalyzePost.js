@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import SentimentReport from './SentimentReport';
+import SentimentChart from './SentimentChart';
 import './AnalyzePost.css';
 
 const AnalyzePost = () => {
@@ -21,16 +23,15 @@ const AnalyzePost = () => {
         setPostText('');
 
         try {
-            const apiPath =
-                process.env.NODE_ENV === 'production'
-                    ? process.env.REACT_APP_BACKEND_URL + '/api/fetch_and_analyze'
-                    : 'http://localhost:8080/api/fetch_and_analyze';
+            const apiPath = process.env.REACT_APP_BACKEND_URL
+                ? `${process.env.REACT_APP_BACKEND_URL}/api/fetch_and_analyze`
+                : 'http://localhost:8080/api/fetch_and_analyze';
 
             const response = await axios.post(apiPath, { url });
             setPostText(response.data.postText);
             setAnalysisResult({
                 sentiment: response.data.sentiment,
-                score: response.data.score,
+                score: Number(response.data.score),
             });
 
         } catch (err) {
@@ -42,33 +43,21 @@ const AnalyzePost = () => {
     };
 
     return (
-        <div className="card">
-            <h2>Analyze a Post</h2>
-            <div className="input-group">
-                <input
-                    type="text"
-                    value={url}
-                    onChange={(e) => setUrl(e.target.value)}
-                    placeholder="Paste X post link here..."
-                />
-                <button onClick={handleAnalyze} disabled={isLoading}>
-                    {isLoading ? 'Analyzing...' : 'Analyze'}
-                </button>
+        <div>
+            <div className="card">
+                <h2>Analyze a Post</h2>
+                <div className="input-group">
+                    <input type="text" value={url} onChange={(e) => setUrl(e.target.value)} placeholder="Paste X post link here..." />
+                    <button onClick={handleAnalyze} disabled={isLoading}>
+                        {isLoading ? 'Analyzing...' : 'Analyze'}
+                    </button>
+                </div>
+
+                {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
             </div>
 
-            {error && <p style={{ color: 'red', marginTop: '10px' }}>{error}</p>}
-
-            {postText && (
-                <div style={{ marginTop: '15px' }}>
-                    <p><strong>Post:</strong> {postText}</p>
-                    {analysisResult && (
-                        <>
-                            <p><strong>Sentiment:</strong> {analysisResult.sentiment}</p>
-                            <p><strong>Score:</strong> {analysisResult.score.toFixed(3)}</p>
-                        </>
-                    )}
-                </div>
-            )}
+            <SentimentReport isLoading={isLoading} error={error} result={analysisResult} postText={postText} />
+            {analysisResult && <SentimentChart result={analysisResult} />}
         </div>
     );
 };
