@@ -2,34 +2,39 @@ import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import "./AboutUs.css";
+import AjayImg from "../assets/AJ.jpeg";
+import SathwikaImg from "../assets/sath.jpeg";
+import MadhuImg from "../assets/Madhu.jpg";
+import VeeraImg from "../assets/Veera.jpg";
+import RamanaImg from "../assets/ramana.jpg";
 
 export default function AboutUs() {
   const teamMembers = [
     {
       name: "Ajay Kumar Chinthapally",
       role: "Full Stack Developer & Team Lead",
-      img: "../assets/AJ.jpeg",
+      img: AjayImg,
       mail: "mailto:cajaygoud7731@gmail.com",
       info: "As the team lead, I designed and developed the frontend using React.js, deployed on Netlify, integrated dashboard, charts, and chatbot, handled frontend-backend integration with EC2/Gunicorn and HTTPS, and managed project workflow under Dr. D. Ramana Kumar's guidance.",
     },
     {
       name: "Sathwika Goroju",
       role: "Backend Developer & AI Model Trainer",
-      img: "../assets/sath.jpeg",
+      img: SathwikaImg,
       mail: "mailto:sathwikagoroju@gmail.com",
       info: "I built the backend on AWS EC2, used systemctl to keep it live, integrated X API for real-time posts, processed them through the sentiment model, deployed model to S3, and ensured secure HTTPS communication under Dr. D. Ramana Kumar's mentorship.",
     },
     {
       name: "Madhu Rao Peechara",
       role: "ML Engineer (NLP & Sentiment Analysis)",
-      img: "../assets/Madhu.jpg",
+      img: MadhuImg,
       mail: "mailto:madhurao525@gmail.com",
       info: "I trained the mBERT sentiment model on Google Colab with T4 GPU, Hugging Face Transformers, WandB tracking (20 hours, 3 epochs, 98% accuracy), tested it on real datasets, optimized preprocessing, and strengthened my NLP and deep learning skills under Dr. D. Ramana Kumar.",
     },
     {
       name: "Anumarla Veera Bhramachary",
       role: "Testing & Data Storage",
-      img: "../assets/Veera.jpg",
+      img: VeeraImg,
       mail: "mailto:22eg105k10@anurag.edu.in",
       info: "I handled model storage on AWS S3, tested the entire workflow from fetching X posts to sentiment scores, validated edge cases, monitored EC2 server stability, and learned critical skills in debugging, testing, and cloud storage integration under Dr. D. Ramana Kumar.",
     },
@@ -59,7 +64,7 @@ export default function AboutUs() {
         transition={{ duration: 1 }}
         viewport={{ once: false, amount: 0.3 }}
       >
-        <img src="../assets/ramana.jpg" alt="Dr. Ramana Kumar" className="guide-img" />
+        <img src={RamanaImg} alt="Dr. Ramana Kumar" className="guide-img" />
         <div className="guide-info">
           <h3>Mr. D. Ramana Kumar</h3>
           <p>M.Tech (Ph.D) <br /> Assistant Professor</p>
