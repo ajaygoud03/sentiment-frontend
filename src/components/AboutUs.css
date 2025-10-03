@@ -3,62 +3,96 @@
   font-family: Arial, sans-serif;
 }
 
-.about-section,
-.guide-section,
-.team-section {
+/* Intro */
+.about-section {
+  text-align: center;
   margin-bottom: 60px;
 }
 
+/* Guide / Professor */
 .guide-section {
   display: flex;
+  flex-direction: column;
   align-items: center;
   gap: 20px;
-  flex-wrap: wrap;
+  margin-bottom: 60px;
 }
 
 .guide-img {
-  width: 180px;
-  height: 180px;
+  width: 200px;
+  height: 200px;
   border-radius: 50%;
   object-fit: cover;
 }
 
-.team-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 20px;
+.guide-info {
+  max-width: 600px;
+  text-align: center;
+}
+
+/* Team Members */
+.team-section {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
 .team-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
   background: #fff;
   padding: 20px;
   border-radius: 12px;
-  text-align: center;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-  transition: transform 0.3s, box-shadow 0.3s;
-  position: relative;
+  transition: transform 0.3s;
 }
 
 .team-card:hover {
   transform: translateY(-8px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
 .team-img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
+  width: 180px;
+  height: 180px;
   border-radius: 12px;
+  object-fit: cover;
 }
 
-.team-info {
-  margin-top: 10px;
-  text-align: left;
+.team-info h3 {
+  margin: 0;
 }
 
-.member-info {
-  margin-top: 10px;
-  font-size: 0.95rem;
-  color: #333;
-  line-height: 1.5;
+.team-info h4 {
+  margin: 5px 0;
+  color: #0077cc;
+}
+
+.team-info p {
+  margin: 5px 0;
+}
+
+.team-info a {
+  color: #0077cc;
+  text-decoration: underline;
+}
+
+/* Back button */
+.back-btn-container {
+  text-align: center;
+  margin-top: 40px;
+}
+
+.back-btn {
+  background-color: #0077cc;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.back-btn:hover {
+  background-color: #005fa3;
 }
