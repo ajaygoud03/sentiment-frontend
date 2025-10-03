@@ -9,26 +9,38 @@ export default function Chatbot() {
   // 👋 First bot message when chat opens
   useEffect(() => {
     if (isOpen && messages.length === 0) {
-      setMessages([{ sender: "bot", text: "Hi 👋 Do you want any help with sentiment analysis?" }]);
+      setMessages([
+        { sender: "bot", text: "Hi 👋 Do you want any help with sentiment analysis?" },
+      ]);
     }
-  }, [isOpen]);
+  }, [isOpen, messages.length]);
 
   const sendMessage = async () => {
     if (!input.trim()) return;
 
     const userMsg = { sender: "user", text: input };
     setMessages((prev) => [...prev, userMsg]);
-
-    const reply = await getGeminiResponse(input);
-    const botMsg = { sender: "bot", text: reply };
-    setMessages((prev) => [...prev, botMsg]);
-
     setInput("");
+
+    try {
+      const reply = await getGeminiResponse(input);
+      const botMsg = {
+        sender: "bot",
+        text: reply && reply.trim() !== "" ? reply : "🤔 Sorry, I didn’t understand that.",
+      };
+      setMessages((prev) => [...prev, botMsg]);
+    } catch (error) {
+      console.error("Error fetching bot response:", error);
+      setMessages((prev) => [
+        ...prev,
+        { sender: "bot", text: "⚠️ Oops! Something went wrong, please try again." },
+      ]);
+    }
   };
 
   return (
     <div>
-      {/* Floating Button */}
+      {/* Floating Chat Button */}
       {!isOpen && (
         <div
           onClick={() => setIsOpen(true)}
@@ -46,7 +58,8 @@ export default function Chatbot() {
             color: "#fff",
             fontSize: "28px",
             cursor: "pointer",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.2)",
+            boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
+            zIndex: 1000,
           }}
           title="Do you want any help?"
         >
@@ -62,13 +75,13 @@ export default function Chatbot() {
             bottom: "80px",
             right: "20px",
             width: "350px",
-            height: "400px",
+            height: "420px",
             border: "1px solid #ccc",
             borderRadius: "12px",
             backgroundColor: "#fff",
             display: "flex",
             flexDirection: "column",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.2)",
+            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             overflow: "hidden",
             zIndex: 1000,
           }}
@@ -146,7 +159,13 @@ export default function Chatbot() {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder="Type your message..."
-              style={{ flex: 1, padding: "8px" }}
+              style={{
+                flex: 1,
+                padding: "8px",
+                border: "1px solid #ccc",
+                borderRadius: "6px",
+              }}
+              onKeyDown={(e) => e.key === "Enter" && sendMessage()}
             />
             <button
               onClick={sendMessage}
