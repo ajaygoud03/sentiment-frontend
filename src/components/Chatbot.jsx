@@ -6,11 +6,14 @@ export default function Chatbot() {
   const [input, setInput] = useState("");
   const [isOpen, setIsOpen] = useState(false);
 
-  // 👋 First bot message when chat opens
+  // Initial welcome message when the chat opens
   useEffect(() => {
     if (isOpen && messages.length === 0) {
       setMessages([
-        { sender: "bot", text: "Hi 👋 Do you want any help with sentiment analysis?" },
+        {
+          sender: "bot",
+          text: "Hi 👋 I'm Sentiment Dog — your Sentiment Assistant! Need help analyzing posts or understanding sentiment trends?",
+        },
       ]);
     }
   }, [isOpen, messages.length]);
@@ -33,7 +36,7 @@ export default function Chatbot() {
       console.error("Error fetching bot response:", error);
       setMessages((prev) => [
         ...prev,
-        { sender: "bot", text: "⚠️ Oops! Something went wrong, please try again." },
+        { sender: "bot", text: "⚠️ Oops! Something went wrong. Try again later." },
       ]);
     }
   };
@@ -58,10 +61,11 @@ export default function Chatbot() {
             color: "#fff",
             fontSize: "28px",
             cursor: "pointer",
-            boxShadow: "0 4px 8px rgba(0,0,0,0.3)",
-            zIndex: 1000,
+            boxShadow: "0 4px 10px rgba(0,0,0,0.25)",
+            transition: "all 0.3s ease",
+            zIndex: 9999,
           }}
-          title="Do you want any help?"
+          title="Need help?"
         >
           💬
         </div>
@@ -74,16 +78,16 @@ export default function Chatbot() {
             position: "fixed",
             bottom: "80px",
             right: "20px",
-            width: "350px",
-            height: "420px",
-            border: "1px solid #ccc",
-            borderRadius: "12px",
+            width: "340px",
+            height: "440px",
             backgroundColor: "#fff",
+            borderRadius: "16px",
+            boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
             display: "flex",
             flexDirection: "column",
-            boxShadow: "0 4px 12px rgba(0,0,0,0.3)",
             overflow: "hidden",
-            zIndex: 1000,
+            zIndex: 9999,
+            animation: "fadeIn 0.3s ease-in-out",
           }}
         >
           {/* Header */}
@@ -91,20 +95,22 @@ export default function Chatbot() {
             style={{
               backgroundColor: "#007bff",
               color: "#fff",
-              padding: "10px",
+              padding: "12px",
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
+              fontWeight: "600",
+              fontSize: "16px",
             }}
           >
-            <span>Sentiment Bot</span>
+            <span>💬 Sentiment Dog Assistant</span>
             <button
               onClick={() => setIsOpen(false)}
               style={{
                 background: "transparent",
                 border: "none",
                 color: "#fff",
-                fontSize: "16px",
+                fontSize: "18px",
                 cursor: "pointer",
               }}
             >
@@ -118,25 +124,27 @@ export default function Chatbot() {
               flex: 1,
               padding: "10px",
               overflowY: "auto",
-              backgroundColor: "#f9f9f9",
+              backgroundColor: "#f5f7fa",
+              scrollBehavior: "smooth",
             }}
           >
-            {messages.map((msg, idx) => (
+            {messages.map((msg, i) => (
               <div
-                key={idx}
+                key={i}
                 style={{
                   textAlign: msg.sender === "user" ? "right" : "left",
-                  marginBottom: "6px",
+                  marginBottom: "8px",
                 }}
               >
                 <p
                   style={{
-                    background: msg.sender === "user" ? "#007bff" : "#eee",
-                    color: msg.sender === "user" ? "#fff" : "#000",
-                    padding: "8px",
-                    borderRadius: "10px",
                     display: "inline-block",
+                    background: msg.sender === "user" ? "#007bff" : "#e4e6eb",
+                    color: msg.sender === "user" ? "#fff" : "#000",
+                    padding: "8px 12px",
+                    borderRadius: "10px",
                     maxWidth: "80%",
+                    wordWrap: "break-word",
                   }}
                 >
                   {msg.text}
@@ -145,12 +153,12 @@ export default function Chatbot() {
             ))}
           </div>
 
-          {/* Input */}
+          {/* Input area */}
           <div
             style={{
               display: "flex",
-              padding: "8px",
-              borderTop: "1px solid #ccc",
+              padding: "10px",
+              borderTop: "1px solid #ddd",
               backgroundColor: "#fff",
             }}
           >
@@ -171,15 +179,16 @@ export default function Chatbot() {
               onClick={sendMessage}
               style={{
                 padding: "8px 12px",
+                marginLeft: "6px",
                 backgroundColor: "#007bff",
                 color: "#fff",
                 border: "none",
-                cursor: "pointer",
                 borderRadius: "6px",
-                marginLeft: "5px",
+                cursor: "pointer",
+                fontWeight: "600",
               }}
             >
-              Send
+              ➤
             </button>
           </div>
         </div>
